@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap');
+
+.mc {
+  --pink: #ff2bd6; --cyan: #16f4ff; --lime: #b6ff3b; --muted: #a99cc8;
+  position: relative;
+  min-height: 100vh;
+  padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
+  color: #f3eaff;
+  background: radial-gradient(ellipse at 50% 0%, #2a0f4d 0%, #07040f 60%) #07040f;
+  overflow: hidden;
+}
+/* neon grid floor */
+.mc::before {
+  content: ""; position: absolute; inset: auto 0 0 0; height: 45vh; pointer-events: none; opacity: .35;
+  background:
+    linear-gradient(transparent, rgba(255,43,214,.25)),
+    repeating-linear-gradient(90deg, rgba(22,244,255,.35) 0 1px, transparent 1px 60px),
+    repeating-linear-gradient(0deg, rgba(22,244,255,.25) 0 1px, transparent 1px 40px);
+  transform: perspective(300px) rotateX(55deg); transform-origin: bottom;
+}
+.mc header { position: relative; text-align: center; padding: 28px 16px 4px; }
+.mc h1 {
+  font-family: Orbitron, "Segoe UI", sans-serif; font-weight: 800; margin: 0;
+  font-size: clamp(1.6rem, 5vw, 3rem); letter-spacing: .12em; color: #fff;
+  text-shadow: 0 0 6px var(--cyan), 0 0 18px var(--cyan), 0 0 40px var(--pink);
+}
+.mc header p { margin: 8px 0 0; color: var(--muted); }
+
+.stage {
+  position: relative; height: min(62vh, 520px); min-height: 380px;
+  perspective: 1100px; margin: 18px auto 0; max-width: 1100px; touch-action: pan-y;
+}
+.card {
+  position: absolute; top: 50%; left: 50%; width: min(60vw, 260px); aspect-ratio: 2 / 3;
+  margin: 0; padding: 0; border: 2px solid var(--c1); border-radius: 16px; background: #000;
+  cursor: pointer; overflow: hidden; color: inherit;
+  transition: transform .6s cubic-bezier(.2,.8,.2,1), opacity .6s, box-shadow .6s;
+  box-shadow: 0 0 14px var(--c1), 0 0 40px color-mix(in srgb, var(--c1) 55%, transparent);
+}
+.card img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.card:focus-visible { outline: 3px solid var(--lime); outline-offset: 4px; }
+.card.active {
+  box-shadow: 0 0 18px var(--c1), 0 0 60px var(--c1), 0 0 110px color-mix(in srgb, var(--c2) 60%, transparent);
+}
+.hint {
+  position: absolute; left: 0; right: 0; bottom: 8px; text-align: center; font-size: .8rem;
+  color: #fff; text-shadow: 0 0 8px #000; opacity: 0; transition: opacity .3s;
+}
+.card.active:hover .hint, .card.active:focus-visible .hint { opacity: 1; }
+
+.nav {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 50; width: 48px; height: 48px;
+  border-radius: 50%; border: 2px solid var(--cyan); background: rgba(7,4,15,.7); color: var(--cyan);
+  font-size: 1.4rem; cursor: pointer; box-shadow: 0 0 12px var(--cyan); text-shadow: 0 0 8px var(--cyan);
+}
+.nav:hover { background: var(--cyan); color: #000; }
+.prev { left: 8px; } .next { right: 8px; }
+
+.info { position: relative; text-align: center; padding: 6px 16px 0; }
+.info h2 {
+  font-family: Orbitron, "Segoe UI", sans-serif; margin: 0; font-size: clamp(1.2rem, 3.4vw, 1.9rem);
+  color: var(--lime); text-shadow: 0 0 10px var(--lime);
+}
+.info span { color: var(--muted); }
+.bar { position: relative; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 16px 0 8px; padding: 0 16px; }
+.dots { position: relative; display: flex; gap: 8px; justify-content: center; margin: 10px 0 24px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; border: 1px solid var(--pink); background: transparent; padding: 0; cursor: pointer; }
+.dot.on { background: var(--pink); box-shadow: 0 0 10px var(--pink); }
+
+/* Details dialog (rendered outside .mc by MUI) */
+.sheet {
+  position: relative; display: flex; gap: 24px; max-height: 90vh; overflow: auto; color: #f3eaff;
+  background: #120a24; border: 2px solid var(--c1); border-radius: 20px; padding: 22px;
+  box-shadow: 0 0 20px var(--c1), 0 0 70px color-mix(in srgb, var(--c1) 50%, transparent);
+}
+.sheet .poster { flex: 0 0 220px; }
+.sheet .poster img { width: 100%; display: block; border-radius: 12px; box-shadow: 0 0 18px var(--c2); }
+.sheet h3 { font-family: Orbitron, "Segoe UI", sans-serif; margin: 0 0 4px; font-size: 1.5rem; color: #fff; text-shadow: 0 0 12px var(--c1); }
+.sheet .tag { margin: 0 0 12px; color: #16f4ff; font-style: italic; }
+.sheet .meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; padding: 0; list-style: none; }
+.sheet .meta li { border: 1px solid #b6ff3b; color: #b6ff3b; border-radius: 999px; padding: 3px 12px; font-size: .82rem; }
+.sheet .syn { line-height: 1.65; color: #e4d9fa; margin: 0 0 18px; }
+.sheet .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.x {
+  position: absolute; top: 10px; right: 12px; width: 38px; height: 38px; border-radius: 50%;
+  border: 2px solid #ff2bd6; background: transparent; color: #ff2bd6; font-size: 1.2rem; cursor: pointer;
+}
+.x:hover { background: #ff2bd6; color: #000; }
+
+@media (max-width: 640px) {
+  .sheet { flex-direction: column; align-items: center; text-align: center; }
+  .sheet .poster { flex-basis: auto; width: 150px; }
+  .sheet .meta, .sheet .actions { justify-content: center; }
+  .nav { width: 40px; height: 40px; }
+  .stage { min-height: 340px; }
+}
+@media (prefers-reduced-motion: reduce) { .card { transition: none; } }
